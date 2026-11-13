@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cresco Fides</title>
+<style>
+:root {
+--bg: #f4f7fb;
+--panel: #ffffff;
+--soft: #edf3ff;
+--line: #dfe8f4;
+--text: #1b2433;
+--muted: #5b6b7f;
+--blue: #2563eb;
+--green: #1f9d61;
+--orange: #f59e0b;
+--purple: #7c3aed;
+--danger: #d14343;
+--shadow: 0 8px 26px rgba(17, 24, 39, 0.08);
+}
+
+* { box-sizing: border-box; }
+html, body {
+margin: 0;
+padding: 0;
+background: var(--bg);
+color: var(--text);
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+max-width: 480px;
+margin: 0 auto;
+min-height: 100vh;
+padding: 18px 16px 80px;
+}
+
+.topbar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 16px;
+}
+
+h1 {
+margin: 0;
+font-size: 2rem;
+letter-spacing: -0.05em;
+}
+
+.subtitle {
+margin-top: 4px;
+color: var(--muted);
+font-size: 0.92rem;
+}
+
+.btn {
+border: none;
+border-radius: 14px;
+padding: 12px 16px;
+font-size: 0.96rem;
+font-weight: 700;
+cursor: pointer;
+}
+
+.btn.primary {
+background: var(--blue);
+color: white;
+box-shadow: var(--shadow);
+}
+
+.summary-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 18px;
+}
+
+.metric {
+background: var(--panel);
+border: 1px solid var(--line);
+border-radius: 18px;
+padding: 15px;
+box-shadow: var(--shadow);
+}
+
+.metric .label {
+color: var(--muted);
+display: block;
+font-size: 0.75rem;
+margin-bottom: 6px;
+}
+
+.metric .value {
+font-size: 1.1rem;
+font-weight: 800;
+letter-spacing: -0.03em;
+}
+
+.metric.blue { border-left: 5px solid var(--blue); }
+.metric.orange { border-left: 5px solid var(--orange); }
+.metric.green { border-left: 5px solid var(--green); }
+.metric.purple { border-left: 5px solid var(--purple); }
+
+.section-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin: 16px 0 12px;
+}
+
+.section-header h2 {
+margin: 0;
+font-size: 1.3rem;
+letter-spacing: -0.03em;
+}
+
+.badge {
+background: #eaf0ff;
+color: var(--blue);
+border-radius: 999px;
+padding: 6px 10px;
+font-size: 0.72rem;
+font-weight: 700;
+}
+
+.property-list {
+display: grid;
+gap: 12px;
+}
+
+.property-card {
+background: var(--panel);
+border: 1px solid var(--line);
+border-radius: 22px;
+padding: 16px;
+box-shadow: var(--shadow);
+}
+
+.property-head {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 10px;
+}
+
+.property-name {
+font-size: 1.15rem;
+font-weight: 800;
+}
+
+.rate-badge {
+background: rgba(245, 158, 11, 0.14);
+color: var(--orange);
+border-radius: 999px;
+padding: 6px 10px;
+font-size: 0.72rem;
+font-weight: 700;
+}
+
+.property-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin: 12px 0;
+}
+
+.mini {
+background: var(--soft);
+border: 1px solid var(--line);
+border-radius: 14px;
+padding: 10px;
+}
+
+.mini-label {
+display: block;
+color: var(--muted);
+font-size: 0.72rem;
+margin-bottom: 4px;
+}
+
+.mini-value {
+font-size: 1rem;
+font-weight: 800;
+}
+
+.property-footer {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+margin-top: 10px;
+}
+
+.small {
+color: var(--muted);
+font-size: 0.8rem;
+}
+
+.mini-btn {
+border: none;
+background: #eaf0ff;
+color: var(--blue);
+border-radius: 12px;
+padding: 9px 12px;
+font-weight: 700;
+cursor: pointer;
+}
+
+.danger-btn {
+border: none;
+background: #ffe6e6;
+color: var(--danger);
+border-radius: 12px;
+padding: 9px 12px;
+font-weight: 700;
+cursor: pointer;
+}
+
+.tracker {
+margin-top: 18px;
+background: var(--panel);
+border: 1px solid var(--line);
+border-radius: 22px;
+padding: 18px;
+box-shadow: var(--shadow);
+}
+
+.tracker h3 {
+margin: 0 0 12px;
+font-size: 1.2rem;
+}
+
+.tracker-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+}
+
+.result-box {
+background: var(--soft);
+border: 1px solid var(--line);
+border-radius: 16px;
+padding: 12px;
+}
+
+.result-box .label {
+display: block;
+font-size: 0.72rem;
+color: var(--muted);
+margin-bottom: 6px;
+}
+
+.result-box .value {
+font-size: 1rem;
+font-weight: 800;
+}
+
+.payment-list {
+display: grid;
+gap: 8px;
+margin-top: 12px;
+}
+
+.payment-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background: var(--soft);
+border: 1px solid var(--line);
+border-radius: 14px;
+padding: 10px 12px;
+}
+
+.payment-item strong {
+display: block;
+font-size: 0.9rem;
+margin-bottom: 2px;
+}
+
+.payment-item small {
+color: var(--muted);
+}
+
+.payment-right {
+text-align: right;
+font-weight: 800;
+}
+
+.calc {
+margin-top: 20px;
+background: var(--panel);
+border: 1px solid var(--line);
+border-radius: 22px;
+padding: 18px;
+box-shadow: var(--shadow);
+}
+
+.calc h3 {
+margin: 0 0 12px;
+font-size: 1.2rem;
+}
+
+.field {
+margin-bottom: 12px;
+}
+
+.field label {
+display: block;
+margin-bottom: 7px;
+font-size: 0.78rem;
+color: var(--muted);
+font-weight: 700;
+}
+
+.field input {
+width: 100%;
+padding: 12px 14px;
+border: 1px solid var(--line);
+border-radius: 12px;
+background: white;
+font-size: 1rem;
+outline: none;
+}
+
+.field input:focus {
+border-color: var(--blue);
+box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.calc-output {
+margin-top: 14px;
+background: var(--soft);
+border: 1px solid var(--line);
+border-radius: 18px;
+padding: 14px;
+}
+
+.calc-output-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin-top: 8px;
+}
+
+.output-box {
+background: white;
+border: 1px solid var(--line);
+border-radius: 14px;
+padding: 10px;
+}
+
+.output-box .label {
+display: block;
+color: var(--muted);
+font-size: 0.72rem;
+margin-bottom: 5px;
+}
+
+.output-box .value {
+font-size: 0.98rem;
+font-weight: 800;
+}
+
+.modal {
+position: fixed;
+inset: 0;
+background: rgba(16, 24, 40, 0.55);
+display: none;
+align-items: flex-end;
+justify-content: center;
+z-index: 50;
+}
+
+.modal.open {
+display: flex;
+}
+
+.modal-inner {
+background: white;
+border-radius: 26px 26px 0 0;
+width: min(100%, 500px);
+padding: 18px 16px 28px;
+max-height: 90vh;
+overflow: auto;
+}
+
+.modal-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 14px;
+}
+
+.close-btn {
+border: none;
+background: #edf3ff;
+color: var(--blue);
+width: 35px; height: 35px;
+border-radius: 10px;
+font-size: 1.2rem;
+font-weight: 700;
+cursor: pointer;
+}
+
+.help {
+color: var(--muted);
+font-size: 0.78rem;
+margin-top: 8px;
+}
+
+@media (max-width: 380px) {
+.summary-grid, .tracker-grid, .calc-output-grid, .property-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+<div>
+<h1>Cresco Fides</h1>
+<div class="subtitle">Property and mortgage tracker</div>
+</div>
+<button class="btn primary" id="openAdd">Add</button>
+</div>
+
+<section class="summary-grid" id="summaryGrid"></section>
+
+<div class="section-header">
+<h2>Properties</h2>
+<span class="badge" id="propertyCount">0 active</span>
+</div>
+
+<div id="propertyList" class="property-list"></div>
+
+<div class="tracker" id="trackerPanel"></div>
+
+<div class="calc">
+<h3>Extra payment calculator</h3>
+
+<div class="field">
+<label for="extraMonthly">Monthly extra payment</label>
+<input id="extraMonthly" type="number" value="200" min="0" step="25">
+</div>
+
+<div class="field">
+<label for="extraOneOff">One-off extra payment</label>
+<input id="extraOneOff" type="number" value="2500" min="0" step="250">
+</div>
+
+<button class="btn primary" id="compareBtn" style="width:100%;">Compare mortgage plan</button>
+
+<div class="calc-output">
+<div class="calc-output-grid">
+<div class="output-box">
+<span class="label">Standard payoff</span>
+<span class="value" id="standardPayoff">-</span>
+</div>
+<div class="output-box">
+<span class="label">With extra</span>
+<span class="value" id="extraPayoff">-</span>
+</div>
+<div class="output-box">
+<span class="label">Interest saved</span>
+<span class="value" id="interestSaved">-</span>
+</div>
+<div class="output-box">
+<span class="label">Time saved</span>
+<span class="value" id="timeSaved">-</span>
+</div>
+</div>
+</div>
+</div>
+</body>
+
+<div class="modal" id="propertyModal">
+<div class="modal-inner">
+<div class="modal-header">
+<h3>Add property</h3>
+<button class="close-btn" id="closeModal">×</button>
+</div>
+
+<div class="field">
+<label for="propertyName">Property name</label>
+<input id="propertyName" type="text" placeholder="The Grove">
+</div>
+
+<div class="field">
+<label for="propertyValue">Current value</label>
+<input id="propertyValue" type="number" min="0" step="1000" placeholder="425000">
+</div>
+
+<div class="field">
+<label for="mortgageBalance">Mortgage balance</label>
+<input id="mortgageBalance" type="number" min="0" step="1000" placeholder="186500">
+</div>
+
+<div class="field">
+<label for="interestRate">Interest rate (%)</label>
+<input id="interestRate" type="number" min="0" step="0.01" placeholder="4.25">
+</div>
+
+<div class="field">
+<label for="monthlyPayment">Monthly payment</label>
+<input id="monthlyPayment" type="number" min="0" step="10" placeholder="1185">
+</div>
+
+<div class="field">
+<label for="nextDue">Next payment due</label>
+<input id="nextDue" type="text" placeholder="12 Nov">
+</div>
+
+<div class="help">Use this as a simple calculator and tracker. It does not connect to banks or share data.</div>
+
+<button class="btn primary" id="saveProperty" style="width:100%; margin-top: 12px;">Save property</button>
+</div>
+</div>
+
+<script>
+const STORAGE_KEY = "cresco-fides-v1";
+
+const baseProperties = [
+{ id: crypto.randomUUID(), name: "The Grove", value: 425000, mortgage: 186500, rate: 4.25, monthlyPayment: 1185, nextDue: "12 Nov" },
+{ id: crypto.randomUUID(), name: "Harbor View", value: 610000, mortgage: 294000, rate: 3.9, monthlyPayment: 1720, nextDue: "18 Nov" }
+];
+
+let state = loadState();
+
+function loadState() {
+try {
+const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+if (saved && Array.isArray(saved.properties) && saved.properties.length) {
+return saved;
+}
+} catch (e) {}
+
+const fresh = {
+selectedId: baseProperties[0].id,
+properties: baseProperties
+};
+
+saveState(fresh);
+return fresh;
+}
+
+function saveState(nextState) {
+localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
+}
+
+function getSelectedProperty() {
+return state.properties.find(p => p.id === state.selectedId) || state.properties[0];
+}
+
+function currency(value) {
+return new Intl.NumberFormat("en-GB", {
+style: "currency",
+currency: "GBP",
+maximumFractionDigits: 0
+}).format(Number(value || 0));
+}
+
+function formatRate(value) {
+return Number(value || 0).toFixed(2) + "%";
+}
+
+function monthsToLabel(months) {
+if (!months || !Number.isFinite(months)) return "N/A";
+const years = Math.floor(months / 12);
+const remainder = months % 12;
+if (years && remainder) return `${years}y ${remainder}m`;
+if (years) return `${years}y`;
+return `${remainder}m`;
+}
+
+function estimateMortgageMonths(balance, rate, payment) {
+if (!balance || !payment) return 0;
+const monthlyRate = (rate / 100) / 12;
+if (monthlyRate <= 0) return Math.ceil(balance / payment);
+
+let current = balance;
+let months = 0;
+
+while (current > 0.01 && months < 6000) {
+const interest = current * monthlyRate;
+const principal = Math.min(payment - interest, current);
+current -= principal;
+months++;
+}
+
+return months;
+}
+
+function estimateTotalInterest(balance, rate, payment, months) {
+if (!months || !payment) return 0;
+const monthlyRate = (rate / 100) / 12;
+let current = balance;
+let total = 0;
+
+for (let i = 0; i < months && current > 0; i++) {
+const interest = current * monthlyRate;
+const principal = Math.min(payment - interest, current);
+current -= principal;
+total += interest;
+}
+
+return total;
+}
+
+function estimateSavedInterest(balance, rate, payment, monthlyExtra, lumpSum) {
+const standardMonths = estimateMortgageMonths(balance, rate, payment);
+const reducedBalance = Math.max(0, balance - lumpSum);
+const newPayment = payment + monthlyExtra;
+const extraMonths = estimateMortgageMonths(reducedBalance, rate, newPayment);
+
+const standardInterest = estimateTotalInterest(balance, rate, payment, standardMonths);
+const extraInterest = estimateTotalInterest(reducedBalance, rate, newPayment, extraMonths);
+
+return Math.max(0, standardInterest - extraInterest);
+}
+
+function renderSummary() {
+const totalValue = state.properties.reduce((sum, p) => sum + Number(p.value || 0), 0);
+const totalMortgage = state.properties.reduce((sum, p) => sum + Number(p.mortgage || 0), 0);
+const totalEquity = totalValue - totalMortgage;
+const totalMonthly = state.properties.reduce((sum, p) => sum + Number(p.monthlyPayment || 0), 0);
+
+document.getElementById("summaryGrid").innerHTML = `
+<div class="metric blue">
+<span class="label">Total value</span>
+<span class="value">${currency(totalValue)}</span>
+</div>
+<div class="metric orange">
+<span class="label">Mortgage</span>
+<span class="value">${currency(totalMortgage)}</span>
+</div>
+<div class="metric green">
+<span class="label">Equity</span>
+<span class="value">${currency(totalEquity)}</span>
+</div>
+<div class="metric purple">
+<span class="label">Monthly</span>
+<span class="value">${currency(totalMonthly)}</span>
+</div>
+`;
+}
+
+function renderProperties() {
+const list = document.getElementById("propertyList");
+list.innerHTML = "";
+
+state.properties.forEach(property => {
+const isSelected = property.id === state.selectedId;
+const eq = Number(property.value || 0) - Number(property.mortgage || 0);
+
+const item = document.createElement("div");
+item.className = "property-card";
+item.style.borderColor = isSelected ? "#2563eb" : "#dfe8f4";
+item.style.boxShadow = isSelected ? "0 8px 26px rgba(37,99,235,0.15)" : "";
+item.innerHTML = `
+<div class="property-head">
+<div class="property-name">${property.name}</div>
+<span class="rate-badge">${formatRate(property.rate)}</span>
+</div>
+
+<div class="property-grid">
+<div class="mini">
+<span class="mini-label">Value</span>
+<span class="mini-value">${currency(property.value)}</span>
+</div>
+<div class="mini">
+<span class="mini-label">Equity</span>
+<span class="mini-value">${currency(eq)}</span>
+</div>
+</div>
+
+<div class="property-footer">
+<div class="small">Next due: ${property.nextDue}</div>
+<div style="display:flex; gap:8px;">
+<button class="mini-btn" data-action="select" data-id="${property.id}">View</button>
+<button class="danger-btn" data-action="delete" data-id="${property.id}">Delete</button>
+</div>
+</div>
+`;
+list.appendChild(item);
+});
+
+document.getElementById("propertyCount").textContent = `${state.properties.length} active`;
+}
+
+function renderTracker() {
+const property = getSelectedProperty();
+if (!property) return;
+
+const paymentHistory = [
+{ month: "Jan", amount: property.monthlyPayment, principal: property.monthlyPayment * 0.38, interest: property.monthlyPayment * 0.62, type: "Standard" },
+{ month: "Feb", amount: property.monthlyPayment, principal: property.monthlyPayment * 0.39, interest: property.monthlyPayment * 0.61, type: "Standard" },
+{ month: "Mar", amount: property.monthlyPayment, principal: property.monthlyPayment * 0.40, interest: property.monthlyPayment * 0.60, type: "Standard" },
+{ month: "Apr", amount: property.monthlyPayment + 250, principal: (property.monthlyPayment + 250) * 0.46, interest: (property.monthlyPayment + 250) * 0.54, type: "Extra" },
+{ month: "May", amount: property.monthlyPayment, principal: property.monthlyPayment * 0.41, interest: property.monthlyPayment * 0.59, type: "Standard" }
+];
+
+const totalPrincipal = paymentHistory.reduce((sum, p) => sum + p.principal, 0);
+const totalInterest = paymentHistory.reduce((sum, p) => sum + p.interest, 0);
+
+document.getElementById("trackerPanel").innerHTML = `
+<h3>${property.name}</h3>
+<div class="tracker-grid">
+<div class="result-box">
+<span class="label">Balance</span>
+<span class="value">${currency(property.mortgage)}</span>
+</div>
+<div class="result-box">
+<span class="label">Monthly</span>
+<span class="value">${currency(property.monthlyPayment)}</span>
+</div>
+<div class="result-box">
+<span class="label">Principal paid</span>
+<span class="value" style="color:#1f9d61;">${currency(totalPrincipal)}</span>
+</div>
+<div class="result-box">
+<span class="label">Interest paid</span>
+<span class="value" style="color:#f59e0b;">${currency(totalInterest)}</span>
+</div>
+</div>
+
+<div class="payment-list">
+${paymentHistory.map(item => `
+<div class="payment-item">
+<div>
+<strong>${item.month}</strong>
+<small>${item.type}</small>
+</div>
+<div class="payment-right">
+${currency(item.amount)}
+<div style="font-size:0.7rem;">
+<span style="color:#1f9d61;">P ${currency(item.principal)}</span>
+<span style="color:#f59e0b;"> I ${currency(item.interest)}</span>
+</div>
+</div>
+</div>
+`).join("")}
+</div>
+`;
+}
+
+function renderCalculator() {
+const property = getSelectedProperty();
+if (!property) return;
+
+const monthlyExtra = Number(document.getElementById("extraMonthly").value || 0);
+const oneOffExtra = Number(document.getElementById("extraOneOff").value || 0);
+
+const standardMonths = estimateMortgageMonths(property.mortgage, property.rate, property.monthlyPayment);
+const extraMonths = estimateMortgageMonths(Math.max(0, property.mortgage - oneOffExtra), property.rate, property.monthlyPayment + monthlyExtra);
+
+const savedInterest = estimateSavedInterest(property.mortgage, property.rate, property.monthlyPayment, monthlyExtra, oneOffExtra);
+const monthsSaved = Math.max(0, standardMonths - extraMonths);
+
+document.getElementById("standardPayoff").textContent = monthsToLabel(standardMonths);
+document.getElementById("extraPayoff").textContent = monthsToLabel(extraMonths);
+document.getElementById("interestSaved").textContent = currency(savedInterest);
+document.getElementById("timeSaved").textContent = `${monthsSaved} months`;
+}
+
+function openModal() {
+document.getElementById("propertyModal").classList.add("open");
+}
+
+function closeModal() {
+document.getElementById("propertyModal").classList.remove("open");
+}
+
+function resetModal() {
+document.getElementById("propertyName").value = "";
+document.getElementById("propertyValue").value = "";
+document.getElementById("mortgageBalance").value = "";
+document.getElementById("interestRate").value = "";
+document.getElementById("monthlyPayment").value = "";
+document.getElementById("nextDue").value = "";
+}
+
+document.getElementById("openAdd").addEventListener("click", openModal);
+document.getElementById("closeModal").addEventListener("click", closeModal);
+
+document.getElementById("propertyModal").addEventListener("click", function (event) {
+if (event.target.id === "propertyModal") closeModal();
+});
+
+document.getElementById("saveProperty").addEventListener("click", function () {
+const name = document.getElementById("propertyName").value.trim();
+const value = Number(document.getElementById("propertyValue").value || 0);
+const mortgage = Number(document.getElementById("mortgageBalance").value || 0);
+const rate = Number(document.getElementById("interestRate").value || 0);
+const monthlyPayment = Number(document.getElementById("monthlyPayment").value || 0);
+const nextDue = document.getElementById("nextDue").value.trim();
+
+if (!name || value <= 0 || mortgage < 0 || rate < 0 || monthlyPayment <= 0 || !nextDue) {
+alert("Please complete all details first.");
+return;
+}
+
+const newProperty = {
+id: crypto.randomUUID(),
+name,
+value,
+mortgage,
+rate,
+monthlyPayment,
+nextDue
+};
+
+state.properties.push(newProperty);
+state.selectedId = newProperty.id;
+saveState(state);
+renderAll();
+closeModal();
+resetModal();
+});
+
+document.getElementById("propertyList").addEventListener("click", function (event) {
+const btn = event.target.closest("button");
+if (!btn) return;
+
+const id = btn.dataset.id;
+const action = btn.dataset.action;
+
+if (action === "select") {
+state.selectedId = id;
+saveState(state);
+renderAll();
+}
+
+if (action === "delete") {
+if (state.properties.length <= 1) {
+alert("You need at least one property in the app.");
+return;
+}
+state.properties = state.properties.filter(p => p.id !== id);
+state.selectedId = state.properties[0].id;
+saveState(state);
+renderAll();
+}
+});
+
+document.getElementById("compareBtn").addEventListener("click", renderCalculator);
+
+function renderAll() {
+renderSummary();
+renderProperties();
+renderTracker();
+renderCalculator();
+}
+
+renderAll();
+</script>
+</html>
